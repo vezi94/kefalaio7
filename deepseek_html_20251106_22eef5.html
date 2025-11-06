@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Σύστημα Διασφάλισης Ποιότητας - Κεφάλαιο 7</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+        }
+
+        .content-section {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--accent-color);
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        h4 {
+            color: var(--primary-color);
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .card {
+            background: var(--light-bg);
+            border-left: 4px solid var(--secondary-color);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .card.warning {
+            border-left-color: var(--accent-color);
+            background: #ffeaa7;
+        }
+
+        .card.success {
+            border-left-color: var(--success-color);
+            background: #d5f4e6;
+        }
+
+        .card.info {
+            border-left-color: var(--secondary-color);
+            background: #e8f4fc;
+        }
+
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .standard-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .standard-card.iso9001 {
+            border-top-color: #3498db;
+        }
+
+        .standard-card.iso22000 {
+            border-top-color: #e74c3c;
+        }
+
+        .principle-number {
+            background: var(--secondary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: var(--light-bg);
+        }
+
+        .example-box {
+            background: #e8f4fc;
+            border: 1px solid var(--secondary-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .example-title {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-box {
+            background: var(--light-bg);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .process-step {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--success-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            margin: 1rem 0;
+        }
+
+        .option {
+            padding: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: var(--secondary-color);
+            background: #e8f4fc;
+        }
+
+        .option.selected {
+            border-color: var(--success-color);
+            background: #d5f4e6;
+        }
+
+        .option.correct {
+            border-color: var(--success-color);
+            background: #d5f4e6;
+        }
+
+        .option.incorrect {
+            border-color: var(--accent-color);
+            background: #ffeaa7;
+        }
+
+        .submit-btn {
+            background: var(--success-color);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #219a52;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .result.success {
+            background: #d5f4e6;
+            color: var(--success-color);
+        }
+
+        .result.error {
+            background: #ffeaa7;
+            color: var(--accent-color);
+        }
+
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .benefit-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--success-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .analysis-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .analysis-title {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                width: 100%;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .standards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Σύστημα Διασφάλισης Ποιότητας & Ασφάλειας Τροφίμων</h1>
+            <div class="subtitle">Κεφάλαιο 7 - ISO 9001 & ISO 22000 | Διαδραστική Επεξηγηματική Ανασκόπηση</div>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showSection('intro')">Εισαγωγή</button>
+            <button class="tab-btn" onclick="showSection('iso9001')">ISO 9001</button>
+            <button class="tab-btn" onclick="showSection('iso22000')">ISO 22000</button>
+            <button class="tab-btn" onclick="showSection('comparison')">Σύγκριση</button>
+            <button class="tab-btn" onclick="showSection('integration')">Ολοκλήρωση</button>
+            <button class="tab-btn" onclick="showSection('quiz')">Quiz</button>
+        </div>
+
+        <!-- Εισαγωγή -->
+        <section id="intro" class="content-section active">
+            <h2>Εισαγωγή στα Συστήματα Διαχείρισης Ποιότητας και Ασφάλειας Τροφίμων</h2>
+            
+            <div class="card">
+                <h3>Τι είναι τα Συστήματα Διαχείρισης;</h3>
+                <p>Τα συστήματα διαχείρισης είναι δομημένα πλαίσια που βοηθούν τους οργανισμούς να διαχειρίζονται αποτελεσματικά τις διαδικασίες τους, να βελτιώνουν συνεχώς την απόδοσή τους και να ικανοποιούν τις απαιτήσεις των πελατών και των ενδιαφερομένων μερών.</p>
+            </div>
+
+            <div class="standards-grid">
+                <div class="standard-card iso9001">
+                    <h3>ISO 9001:2015 - Σύστημα Διαχείρισης Ποιότητας</h3>
+                    <p><strong>Ορισμός:</strong> Διεθνές πρότυπο που καθορίζει τις απαιτήσεις για σύστημα διαχείρισης ποιότητας, βάσει του οποίου ένας οργανισμός μπορεί να αποδείξει την ικανότητά του να παρέχει συνεχώς προϊόντα και υπηρεσίες που πληρούν τις απαιτήσεις των πελατών και των ισχυόντων κανονιστικών πλαισίων.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Ανάλυση:</div>
+                        <p>Το ISO 9001 δεν είναι απλώς ένα "πιστοποιητικό ποιότητας" αλλά μια φιλοσοφία διαχείρισης που:</p>
+                        <ul>
+                            <li>Εστιάζει στην πρόληψη προβλημάτων παρά στην αντιμετώπισή τους</li>
+                            <li>Προωθεί τη συνεχή βελτίωση</li>
+                            <li>Απαιτεί συμμετοχή όλων των επιπέδων του οργανισμού</li>
+                            <li>Βασίζεται σε δεδομένα και γεγονότα για λήψη αποφάσεων</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="standard-card iso22000">
+                    <h3>ISO 22000:2018 - Σύστημα Διαχείρισης Ασφάλειας Τροφίμων</h3>
+                    <p><strong>Ορισμός:</strong> Διεθνές πρότυπο που καθορίζει τις απαιτήσεις για σύστημα διαχείρισης ασφάλειας τροφίμων, το οποίο συνδυάζει γενικά αναγνωρισμένα στοιχεία για να διασφαλίσει την ασφάλεια των τροφίμων σε όλη την αλυσίδα τροφίμων μέχρι την τελική κατανάλωση.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Ανάλυση:</div>
+                        <p>Το ISO 22000 ενσωματώνει τις αρχές του HACCP και περιλαμβάνει:</p>
+                        <ul>
+                            <li>Αλληλεπίδραση με προαπαιτούμενα προγράμματα</li>
+                            <li>Στρατηγική που καλύπτει όλη την αλυσίδα τροφίμων</li>
+                            <li>Ευελιξία για διάφορους τύπους οργανισμών τροφίμων</li>
+                            <li>Συμβατότητα με άλλα συστήματα διαχείρισης</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">📋 Πρακτικό Παράδειγμα Εταιρείας Τροφίμων:</div>
+                
+                <p><strong>Εταιρεία: "ΑΡΓΩ" - Παραγωγή Ελληνικών Πρόχειρων Γαλακτοκομικών</strong></p>
+                
+                <h4>Εφαρμογή ISO 9001:</h4>
+                <ul>
+                    <li><strong>Παραλαβή Πρώτων Υλών:</strong> Καθορισμός προδιαγραφών γάλακτος, έλεγχος θερμοκρασίας παραλαβής (μέγ. 4°C)</li>
+                    <li><strong>Παραγωγική Διαδικασία:</strong> Τυποποιημένες παραμέτρους πάστωσης (72°C για 15 δευτερόλεπτα), έλεγχος pH και υγρασίας</li>
+                    <li><strong>Συσκευασία:</strong> Έλεγχος βάρους (±2% ανοχή), ακεραιότητα συσκευασίας</li>
+                    <li><strong>Πελάτες:</strong> Συλλογή και ανάλυση παραπόνων, μέτρηση ικανοποίησης</li>
+                </ul>
+                
+                <h4>Εφαρμογή ISO 22000:</h4>
+                <ul>
+                    <li><strong>CCP - Πάστωση:</strong> Κρίσιμο όριο 72°C για 15 δευτερόλεπτα για την εξάλειψη παθογόνων μικροοργανισμών</li>
+                    <li><strong>Προαπαιτούμενα:</strong> Πρόγραμμα καθαρισμού εξοπλισμού, έλεγχος παρασίτων</li>
+                    <li><strong>Ιχνηλασιμότητα:</strong> Δυνατότητα ανίχνευσης παρτίδας από πελάτη μέχρι αγρότη παραγωγός</li>
+                    <li><strong>Έκτακτες Καταστάσεις:</strong> Διαδικασία ανάκλησης σε περίπτωση προβληματικής παρτίδας</li>
+                </ul>
+                
+                <div class="analysis-box">
+                    <div class="analysis-title">Ανάλυση Οφελών:</div>
+                    <p>Η εφαρμογή και των δύο προτύπων προσφέρει στην εταιρεία:</p>
+                    <ul>
+                        <li><strong>Μείωση σφαλμάτων:</strong> Από 8% σε 2% σε εβδομαδιαία βάση</li>
+                        <li><strong>Βελτίωση παραγωγικότητας:</strong> Αύξηση 15% στην ημερήσια παραγωγή</li>
+                        <li><strong>Μείωση κόστους:</strong> 20% μείωση σε απώλειες πρώτων υλών</li>
+                        <li><strong>Αύξηση πωλήσεων:</strong> 30% λόγω βελτιωμένης φήμης και εμπιστοσύνης πελατών</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card info">
+                <h4>Κοινές Αρχές και Προσεγγίσεις</h4>
+                <p>Και τα δύο πρότυπα ακολουθούν την ίδια δομή υψηλού επιπέδου (High Level Structure) που περιλαμβάνει 10 κλάδους:</p>
+                
+                <div class="process-flow">
+                    <div class="process-step">
+                        <strong>1. Πεδίο εφαρμογής</strong> - Καθορισμός ορίων εφαρμογής του συστήματος
+                    </div>
+                    <div class="process-step">
+                        <strong>2. Αναφορές κανονιστικών πλαισίων</strong> - Πρότυπα και νομοθεσία που ισχύουν
+                    </div>
+                    <div class="process-step">
+                        <strong>3. Όροι και ορισμοί</strong> - Κοινή κατανόηση έννοιων
+                    </div>
+                    <div class="process-step">
+                        <strong>4. Πλαίσιο του οργανισμού</strong> - Κατανόηση εσωτερικού και εξωτερικού περιβάλλοντος
+                    </div>
+                    <div class="process-step">
+                        <strong>5. Ηγεσία</strong> - Δέσμευση και ευθύνης της διοίκησης
+                    </div>
+                    <div class="process-step">
+                        <strong>6. Σχεδιασμός</strong> - Αντιμετώπιση κινδύνων και ευκαιριών
+                    </div>
+                    <div class="process-step">
+                        <strong>7. Υποστήριξη</strong> - Πόρων, ικανότητα, ενημέρωση, τεκμηρίωση
+                    </div>
+                    <div class="process-step">
+                        <strong>8. Λειτουργίες</strong> - Σχεδιασμός, έλεγχος και αλλαγές λειτουργιών
+                    </div>
+                    <div class="process-step">
+                        <strong>9. Αξιολόγηση απόδοσης</strong> - Παρακολούθηση, μέτρηση, ανάλυση, αξιολόγηση
+                    </div>
+                    <div class="process-step">
+                        <strong>10. Βελτίωση</strong> - Μη συμμορφώσεις, διορθωτικές ενέργειες, συνεχής βελτίωση
+                    </div>
+                </div>
+                
+                <div class="analysis-box">
+                    <div class="analysis-title">Σημασία της Κοινής Δομής:</div>
+                    <p>Η κοινή δομή επιτρέπει:</p>
+                    <ul>
+                        <li><strong>Ευκολότερη ολοκλήρωση</strong> πολλαπλών συστημάτων διαχείρισης</li>
+                        <li><strong>Συνέπεια στην εφαρμογή</strong> και διαχείριση</li>
+                        <li><strong>Μείωση γραφειοκρατίας</strong> και διπλοεγγραφής</li>
+                        <li><strong>Βελτιωμένη κατανόηση</strong> από το προσωπικό</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ISO 9001 -->
+        <section id="iso9001" class="content-section">
+            <h2>ISO 9001:2015 - Σύστημα Διαχείρισης Ποιότητας - Λεπτομερής Ανάλυση</h2>
+            
+            <div class="card">
+                <h3>Βασικές Αρχές Ποιότητας ISO 9001</h3>
+                <p>Το ISO 9001 βασίζεται σε 7 βασικές αρχές ποιότητας που αποτελούν το θεμελιώδες πλαίσιο του προτύπου:</p>
+            </div>
+
+            <div class="standards-grid">
+                <div class="standard-card">
+                    <h4>1. Εστίαση στον Πελάτη</h4>
+                    <p><strong>Ορισμός:</strong> Οι οργανισμοί εξαρτώνται από τους πελάτες τους και επομένως θα πρέπει να κατανοούν τις τρέχουσες και μελλοντικές ανάγκες των πελατών, να ικανοποιούν τις απαιτήσεις των πελατών και να προσπαθούν να υπερβούν τις προσδοκίες των πελατών.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Παράδειγμα: Εταιρεία Παραγωγής Ζυμαρικών</strong></p>
+                        <ul>
+                            <li><strong>Έρευνα Αγοράς:</strong> Τριμηνιαίες έρευνες για γεύση, υφή, συσκευασία</li>
+                            <li><strong>Ανάλυση Παραπόνων:</strong> Κατηγοριοποίηση και ανάλυση ριζικής αιτίας</li>
+                            <li><strong>Προσαρμογή Προϊόντος:</strong> Ανάπτυξη νέων γεύσεων βάσει προτιμήσεων πελατών</li>
+                            <li><strong>Μέτρηση Ικανοποίησης:</strong> Ετήσιο δείκτη ικανοποίησης πελατών (CSI > 85%)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="standard-card">
+                    <h4>2. Ηγεσία</h4>
+                    <p><strong>Ορισμός:</strong> Οι ηγέτες δημιουργούν ενότητα σκοπού και κατεύθυνσης του οργανισμού. Θα πρέπει να δημιουργήσουν και να διατηρήσουν το εσωτερικό περιβάλλον στο οποίο τα άτομα μπορούν να συμμετέχουν πλήρως στην επίτευξη των στόχων του οργανισμού.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Παράδειγμα: Εργοστάσιο Συσκευασίας Ελαιολάδου</strong></p>
+                        <ul>
+                            <li><strong>Πολιτική Ποιότητας:</strong> "Παράγουμε έξτρα παρθένο ελαιόλαδο 100% ελληνικό με γευστικές προδιαγραφές που υπερβαίνουν τις απαιτήσεις των πελατών"</li>
+                            <li><strong>Στόχοι Ποιότητας:</strong> Μείωση απορριμμάτων κατά 15% ετησίως, 99% παράδοση εγκαίρων</li>
+                            <li><strong>Επικοινωνία:</strong> Μηνιαίες συναντήσεις διοίκησης-προσωπικού</li>
+                            <li><strong>Αναγνώριση:</strong> Βραβεία για προτάσεις βελτίωσης από προσωπικό</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="standard-card">
+                    <h4>3. Εμπλοκή Ατόμων</h4>
+                    <p><strong>Ορισμός:</strong> Τα άτομα σε όλα τα επίπεδα είναι την ουσία ενός οργανισμού και η πλήρης εμπλοκή τους επιτρέπει τη χρήση των ικανοτήτων τους για το όφελος του οργανισμού.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Παράδειγμα: Ζαχαροπλαστείο Αλυσίδας</strong></p>
+                        <ul>
+                            <li><strong>Ομάδες Βελτίωσης:</strong> Ομάδες προσωπικού για βελτίωση συνταγών</li>
+                            <li><strong>Εκπαίδευση:</strong> Εβδομαδιαία εκπαίδευση σε νέες τεχνικές και προϊόντα</li>
+                            <li><strong>Αυτονομία:</strong> Εξουσία απόρριψης πρώτων υλών που δεν πληρούν προδιαγραφές</li>
+                            <li><strong>Συμμετοχή:</strong> Συμμετοχή προσωπικού στην ανάπτυξη νέων προϊόντων</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="standard-card">
+                    <h4>4. Διαδικασιακή Προσέγγιση</h4>
+                    <p><strong>Ορισμός:</strong> Ένα επιθυμητό αποτέλεσμα επιτυγχάνεται αποτελεσματικότερα όταν οι δραστηριότητες και οι σχετικοί πόροι διαχειρίζονται ως διαδικασία.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Παράδειγμα: Εταιρεία Εμφιαλώσεως Νερού</strong></p>
+                        <ul>
+                            <li><strong>Χαρτογράφηση Διαδικασιών:</strong> Αναγνώριση 15 βασικών διαδικασιών παραγωγής</li>
+                            <li><strong>Δείκτες Απόδοσης:</strong> KPI για κάθε διαδικασία (π.χ. απόδοση γραμμής 95%)</li>
+                            <li><strong>Βελτιώσεις:</strong> Ανασχεδιασμός διαδικασίας πλύσης φιαλών για 20% μείωση νερού</li>
+                            <li><strong>Διασύνδεση:</strong> Ανάλυση επίδρασης μιας διαδικασίας στις άλλες</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">🏭 Πρακτικό Παράδειγμα Εφαρμογής ISO 9001 σε Βιομηχανία Τροφίμων:</div>
+                
+                <p><strong>Εταιρεία: "ΔΕΛΤΑ" - Παραγωγή Κονσερβών Λαχανικών</strong></p>
+                
+                <h4>Βήματα Εφαρμογής:</h4>
+                
+                <div class="process-flow">
+                    <div class="process-step">
+                        <strong>Βήμα 1: Κατανόηση Περιβάλλοντος</strong>
+                        <p><strong>Ανάλυση:</strong> Μελέτη αγοράς κονσερβών, τάσεις υγιεινής διατροφής, ανταγωνιστές</p>
+                        <p><strong>Προσδοκίες Ενδιαφερομένων:</strong> Καταναλωτές (υγιεινά προϊόντα), υπερμάρκετ (συνεπής ποιότητα), ρυθμιστικές αρχές (συμμόρφωση)</p>
+                    </div>
+
+                    <div class="process-step">
+                        <strong>Βήμα 2: Καθορισμός Πολιτικής και Στόχων</strong>
+                        <p><strong>Πολιτική Ποιότητας:</strong> "Παράγουμε κονσέρβες λαχανικών με φυσικά συστατικά, χωρίς συντηρητικά, που ικανοποιούν τις διατροφικές ανάγκες των σύγχρονων καταναλωτών"</p>
+                        <p><strong>Στόχοι:</strong> 99% παράδοση εγκαίρων, ≤1% ποσοστό απορριμμάτων, 95% ικανοποίηση πελατών</p>
+                    </div>
+
+                    <div class="process-step">
+                        <strong>Βήμα 3: Σχεδιασμός Συστήματος</strong>
+                        <p><strong>Διαδικασίες:</strong> Χαρτογράφηση 8 βασικών διαδικασιών από παραλαβή έως παράδοση</p>
+                        <p><strong>Πόρων:</strong> Επένδυση σε νέο εξοπλισμό στείρωσης, εκπαίδευση προσωπικού</p>
+                        <p><strong>Τεκμηρίωση:</strong> Εγχειρίδιο ποιότητας, διαδικασίες, εγγραφα, αρχεία</p>
+                    </div>
+
+                    <div class="process-step">
+                        <strong>Βήμα 4: Υλοποίηση και Λειτουργία</strong>
+                        <p><strong>Ελέγχους:</strong> Καθημερινός έλεγχος πρώτων υλών, ωριαίος έλεγχος παραμέτρων στείρωσης</p>
+                        <p><strong>Μέτρηση:</strong> KPI για κάθε διαδικασία, ανάλυση αποκλίσεων</p>
+                        <p><strong>Διορθωτικές Ενέργειες:</strong> Πρωτόκολλο για αποκλίσεις, ανάλυση ριζικής αιτίας</p>
+                    </div>
+
+                    <div class="process-step">
+                        <strong>Βήμα 5: Αξιολόγηση και Βελτίωση</strong>
+                        <p><strong>Εσωτερικοί Έλεγχοι:</strong> Επιθεωρήσεις ανά 6 μήνες</p>
+                        <p><strong>Ανασκόπηση Διοίκησης:</strong> Τριμηνιαία συνεδρίαση για ανασκόπηση συστήματος</p>
+                        <p><strong>Συνεχής Βελτίωση:</strong> Υλοποίηση προτάσεων βελτίωσης από προσωπικό</p>
+                    </div>
+                </div>
+                
+                <div class="analysis-box">
+                    <div class="analysis-title">Μετρήσιμα Οφέλη μετά την Εφαρμογή:</div>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Δείκτης</th>
+                            <th>Πριν ISO 9001</th>
+                            <th>Μετά ISO 9001</th>
+                            <th>Βελτίωση</th>
+                        </tr>
+                        <tr>
+                            <td>Ποσοστό Απορριμμάτων</td>
+                            <td>5.2%</td>
+                            <td>1.8%</td>
+                            <td>65%</td>
+                        </tr>
+                        <tr>
+                            <td>Ικανοποίηση Πελατών</td>
+                            <td>78%</td>
+                            <td>92%</td>
+                            <td>18%</td>
+                        </tr>
+                        <tr>
+                            <td>Παράδοση Εγκαίρων</td>
+                            <td>85%</td>
+                            <td>97%</td>
+                            <td>14%</td>
+                        </tr>
+                        <tr>
+                            <td>Κόστος Μη Συμμόρφωσης</td>
+                            <td>€45,000/έτος</td>
+                            <td>€12,000/έτος</td>
+                            <td>73%</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card warning">
+                <h4>Κρίσιμα Σημεία Επιτυχίας ISO 9001</h4>
+                <ul>
+                    <li><strong>Απόλυτη Δέσμευση Διοίκησης:</strong> Χωρίς δέσμευση της διοίκησης, το σύστημα είναι καταδικασμένο να αποτύχει</li>
+                    <li><strong>Συμμετοχή Όλου του Προσωπικού:</strong> Το σύστημα δεν είναι έργο μόνο του τμήματος ποιότητας</li>
+                    <li><strong>Εστίαση στη Βελτίωση:</strong> Το πιστοποιητικό είναι αρχή, όχι τέρμα</li>
+                    <li><strong>Πραγματική Εφαρμογή:</strong> Αποφυγή "γραφειοκρατίας" και εστίαση στην ουσία</li>
+                    <li><strong>Συνεχής Εκπαίδευση:</strong> Ενημέρωση και ανάπτυξη δεξιοτήτων προσωπικού</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ISO 22000 -->
+        <section id="iso22000" class="content-section">
+            <h2>ISO 22000:2018 - Σύστημα Διαχείρισης Ασφάλειας Τροφίμων - Λεπτομερής Ανάλυση</h2>
+            
+            <div class="card">
+                <h3>Βασικά Στοιχεία ISO 22000</h3>
+                <p>Το ISO 22000 συνδυάζει γενικά αναγνωρισμένα στοιχεία για να διασφαλίσει την ασφάλεια των τροφίμων σε όλη την αλυσίδα τροφίμων:</p>
+            </div>
+
+            <div class="standards-grid">
+                <div class="standard-card">
+                    <h4>1. Αλληλεπίδραση Επικοινωνίας</h4>
+                    <p><strong>Ορισμός:</strong> Η επικοινωνία με εξωτερικούς και εσωτερικούς ενδιαφερομένους είναι απαραίτητη για να διασφαλιστεί ότι όλα τα σχετικά ζητήματα ασφάλειας τροφίμων εντοπίζονται και αντιμετωπίζονται επαρκώς.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Παράδειγμα: Εταιρεία Επεξεργασίας Ψαριών</strong></p>
+                        <ul>
+                            <li><strong>Εξωτερική Επικοινωνία:</strong>
+                                <ul>
+                                    <li>Προμηθευτές: Απαιτήσεις για ψύξη ψαριών (<2°C)</li>
+                                    <li>Πελάτες: Πληροφορίες για συνθήκες αποθήκευσης</li>
+                                    <li>Αρχές: Ενημέρωση για αλλαγές σε προϊόντα</li>
+                                </ul>
+                            </li>
+                            <li><strong>Εσωτερική Επικοινωνία:</strong>
+                                <ul>
+                                    <li>Συναγερμοί για αποτυχίες εξοπλισμού ψύξης</li>
+                                    <li>Ενημέρωση για νέους κινδύνους (π.χ. βαρέα μέταλλα)</li>
+                                    <li>Συζητήσεις για βελτιώσεις διαδικασιών</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="standard-card">
+                    <h4>2. Διαχείριση Συστήματος</h4>
+                    <p><strong>Ορισμός:</strong> Το ενεργό σύστημα διαχείρισης ασφάλειας τροφίμων είναι απαραίτητο για τον έλεγχο των κινδύνων ασφάλειας τροφίμων και για τη διασφάλιση ότι τα τρόφιμα είναι ασφαλή για την ανθρώπινη κατανάλωση.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Παράδειγμα: Εργοστάσιο Παραγωγής Αλλαντικών</strong></p>
+                        <ul>
+                            <li><strong>Προαπαιτούμενα Προγράμματα (PRPs):</strong>
+                                <ul>
+                                    <li>Καθαρισμός και απολύμανση εξοπλισμού</li>
+                                    <li>Έλεγχος παρασίτων</li>
+                                    <li>Προσωπική υγιεινή</li>
+                                    <li>Συντήρηση εξοπλισμού</li>
+                                </ul>
+                            </li>
+                            <li><strong>Σχέδιο HACCP:</strong>
+                                <ul>
+                                    <li>CCP1: Θερμική επεξεργασία (>70°C για 2 ώρες)</li>
+                                    <li>CCP2: Ταχύτητα ψύξης (από 70°C σε <8°C σε 4 ώρες)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="standard-card">
+                    <h4>3. Προαπαιτούμενα Προγράμματα (PRPs)</h4>
+                    <p><strong>Ορισμός:</strong> Βασικές συνθήκες και δραστηριότητες που είναι απαραίτητες για τη διατήρηση ενός υγιεινού περιβάλλοντος σε όλη την αλυσίδα τροφίμων που είναι κατάλληλη για την παραγωγή, την παραλαβή και την παράδοση ασφαλών τελικών προϊόντων.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Παράδειγμα: Μονάδα Παραγωγής Γαλακτοκομικών</strong></p>
+                        <ul>
+                            <li><strong>Προγράμματα Καθαρισμού:</strong>
+                                <ul>
+                                    <li>Καθημερινός καθαρισμός δεξαμενών γάλακτος</li>
+                                    <li>Απολύμανση με διάλυμα χλωρίου 200 ppm</li>
+                                    <li>Έλεγχος αποτελεσματικότητας με swab tests</li>
+                                </ul>
+                            </li>
+                            <li><strong>Προσωπική Υγιεινή:</strong>
+                                <ul>
+                                    <li>Υποχρεωτικό πλύσιμο και απολύμανση χεριών</li>
+                                    <li>Ειδική ενδυμασία μόνο για παραγωγή</li>
+                                    <li>Ιατρικές εξετάσεις ετησίως</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="standard-card">
+                    <h4>4. Αρχές HACCP</h4>
+                    <p><strong>Ορισμός:</strong> Οι 7 αρχές του HACCP που ενσωματώνονται στο ISO 22000 για τη συστηματική αναγνώριση, αξιολόγηση και έλεγχο κινδύνων ασφάλειας τροφίμων.</p>
+                    
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Παράδειγμα: Εταιρεία Παραγωγής Χυμών</strong></p>
+                        <ul>
+                            <li><strong>Αρχή 1 - Ανάλυση Κινδύνων:</strong> Αναγνώριση κινδύνου από παθογόνα βακτήρια σε ωμούς χυμούς</li>
+                            <li><strong>Αρχή 2 - Καθορισμός CCP:</strong> Παστεύρωση ως CCP για εξάλειψη παθογόνων</li>
+                            <li><strong>Αρχή 3 - Κρίσιμα Όρια:</strong> 85°C για 30 δευτερόλεπτα</li>
+                            <li><strong>Αρχή 4 - Παρακολούθηση:</strong> Συνεχής μέτρηση θερμοκρασίας</li>
+                            <li><strong>Αρχή 5 - Διορθωτικές Ενέργειες:</strong> Απόκλιση από το όριο → επαναπαστεύρωση</li>
+                            <li><strong>Αρχή 6 - Επαλήθευση:</strong> Εβδομαδιαίος μικροβιολογικός έλεγχος</li>
+                            <li><strong>Αρχή 7 - Τεκμηρίωση:</strong> Αρχεία όλων των παραπάνω</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">🏭 Πρακτικό Παράδειγμα Εφαρμογής ISO 22000 σε Βιομηχανία Τροφίμων:</div>
+                
+                <p><strong>Εταιρεία: "ΟΜΗΡΟΣ" - Επεξεργασία και Συσκευασία Κρέατος</strong></p>
+                
+                <h4>Ανάλυση Κινδύνων και Καθορισμός CCP:</h4>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Στάδιο Διαδικασίας</th>
+                        <th>Πιθανοί Κίνδυνοι</th>
+                        <th>Μέτρα Ελέγχου</th>
+                        <th>CCP</th>
+                        <th>Κρίσιμα Όρια</th>
+                    </tr>
+                    <tr>
+                        <td>Παραλαβή Κρέατος</td>
+                        <td>Βιολογικός: Παθογόνα βακτήρια<br>Χημικός: Υπολείμματα φαρμάκων</td>
+                        <td>Έλεγχος πιστοποιητικών<br>Θερμομετρία</td>
+                        <td>Όχι</td>
+                        <td>Θερμοκρασία ≤4°C</td>
+                    </tr>
+                    <tr>
+                        <td>Εκδορήματα</td>
+                        <td>Βιολογικός: Σαλμονέλα, Λιστέρια<br>Φυσικός: Μεταλλικά θραύσματα</td>
+                        <td>Απολύμανση<br>Ανιχνευτής μετάλλων</td>
+                        <td>Όχι</td>
+                        <td>Απουσία ορατών ρύπων</td>
+                    </tr>
+                    <tr>
+                        <td>Θερμική Επεξεργασία</td>
+                        <td>Βιολογικός: Παθογόνα βακτήρια</td>
+                        <td>Παστεύρωση/Ψήσιμο</td>
+                        <td>ΝΑΙ (CCP1)</td>
+                        <td>Εσωτερική θερμοκρασία ≥75°C</td>
+                    </tr>
+                    <tr>
+                        <td>Ψύξη</td>
+                        <td>Βιολογικός: Ανάπτυξη μικροοργανισμών</td>
+                        <td>Ταχύτητα ψύξης</td>
+                        <td>ΝΑΙ (CCP2)</td>
+                        <td>Από 75°C σε ≤4°C σε ≤4 ώρες</td>
+                    </tr>
+                    <tr>
+                        <td>Συσκευασία</td>
+                        <td>Φυσικός: Ξένα σώματα<br>Βιολογικός: Επαναμόλυνση</td>
+                        <td>Ανιχνευτής μετάλλων<br>Έλεγχος υγιεινής</td>
+                        <td>Όχι</td>
+                        <td>Απουσία ξένων σωμάτων</td>
+                    </tr>
+                </table>
+                
+                <div class="analysis-box">
+                    <div class="analysis-title">Ανάλυση Αποτελεσματικότητας:</div>
+                    <p><strong>Μετρήσιμα Αποτελέσματα μετά την Εφαρμογή ISO 22000:</strong></p>
+                    <ul>
+                        <li><strong>Μείωση Μικροβιολογικών Αποκλίσεων:</strong> Από 12% σε 2% των δειγμάτων</li>
+                        <li><strong>Βελτίωση Ιχνηλασιμότητας:</strong> Χρόνος ανίχνευσης από 4 ώρες σε 30 λεπτά</li>
+                        <li><strong>Μείωση Ανακλήσεων:</strong> Από 3 ανά έτος σε 0 για 2 συνεχή έτη</li>
+                        <li><strong>Βελτίωση Εμπιστοσύνης Πελατών:</strong> Αύξηση πωλήσεων 25%</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card success">
+                <h4>Κρίσιμα Στοιχεία Επιτυχίας ISO 22000</h4>
+                <ul>
+                    <li><strong>Σωστή Εφαρμογή PRPs:</strong> Τα προαπαιτούμενα προγράμματα είναι το θεμέλιο</li>
+                    <li><strong>Επιστημονική Βασισμένη Ανάλυση Κινδύνων:</strong> Βασισμένη σε δεδομένα, όχι σε υποθέσεις</li>
+                    <li><strong>Αποτελεσματική Επικοινωνία:</strong> Καθαρή ροή πληροφοριών σε όλη την αλυσίδα</li>
+                    <li><strong>Συνεχής Επαλήθευση:</strong> Τακτικός έλεγχος της αποτελεσματικότητας του συστήματος</li>
+                    <li><strong>Ευελιξία και Προσαρμοστικότητα:</strong> Ικανότητα ανταπόκρισης σε νέους κινδύνους</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Σύγκριση -->
+        <section id="comparison" class="content-section">
+            <h2>Σύγκριση ISO 9001 και ISO 22000 - Λεπτομερής Ανάλυση</h2>
+            
+            <div class="card">
+                <h3>Βασικές Ομοιότητες και Διαφορές</h3>
+                <p>Παρόλο που και τα δύο πρότυπα ακολουθούν την ίδια δομή, έχουν σημαντικές διαφορές στον σκοπό και την εφαρμογή τους:</p>
+            </div>
+
+            <table class="comparison-table">
+                <tr>
+                    <th>Παράμετρος</th>
+                    <th>ISO 9001:2015</th>
+                    <th>ISO 22000:2018</th>
+                    <th>Ανάλυση</th>
+                </tr>
+                <tr>
+                    <td><strong>Κύριος Σκοπός</strong></td>
+                    <td>Ικανοποίηση Πελατών<br>Συνεχής Βελτίωση Ποιότητας</td>
+                    <td>Διασφάλιση Ασφάλειας Τροφίμων<br>Πρόληψη Επιβλαβών Προϊόντων</td>
+                    <td>Το ISO 9001 εστιάζει στην ποιότητα και ικανοποίηση, ενώ το ISO 22000 στην ασφάλεια και πρόληψη βλαβών</td>
+                </tr>
+                <tr>
+                    <td><strong>Εστίαση</strong></td>
+                    <td>Πελάτης και Ενδιαφερόμενα Μέρη</td>
+                    <td>Καταναλωτής και Ασφάλεια Τροφίμων</td>
+                    <td>Το ISO 22000 έχει πιο στενή εστίαση στον τελικό καταναλωτή και την υγεία του</td>
+                </tr>
+                <tr>
+                    <td><strong>Αρχές</strong></td>
+                    <td>7 Αρχές Ποιότητας</td>
+                    <td>7 Αρχές HACCP + PRPs</td>
+                    <td>Το ISO 22000 ενσωματώνει ειδικές τεχνικές για ασφάλεια τροφίμων (HACCP)</td>
+                </tr>
+                <tr>
+                    <td><strong>Κίνδυνοι</strong></td>
+                    <td>Οργανωτικοί και Λειτουργικοί</td>
+                    <td>Βιολογικοί, Χημικοί, Φυσικοί</td>
+                    <td>Το ISO 22000 ασχολείται με συγκεκριμένους κινδύνους ασφάλειας τροφίμων</td>
+                </tr>
+                <tr>
+                    <td><strong>Πεδίο Εφαρμογής</strong></td>
+                    <td>Όλοι οι Οργανισμοί</td>
+                    <td>Οργανισμοί Αλυσίδας Τροφίμων</td>
+                    <td>Το ISO 22000 εφαρμόζεται μόνο σε οργανισμούς που σχετίζονται με τρόφιμα</td>
+                </tr>
+                <tr>
+                    <td><strong>Κρίσιμα Σημεία</strong></td>
+                    <td>Σημεία Ελέγχου Ποιότητας</td>
+                    <td>Κρίσιμα Σημεία Ελέγχου (CCP)</td>
+                    <td>Τα CCP στο ISO 22000 έχουν αυστηρά κρίσιμα όρια για πρόληψη κινδύνων</td>
+                </tr>
+                <tr>
+                    <td><strong>Νομική Συμμόρφωση</strong></td>
+                    <td>Γενικές Νομικές Απαιτήσεις</td>
+                    <td>Ειδική Νομοθεσία Τροφίμων</td>
+                    <td>Το ISO 22000 απαιτεί συγκεκριμένη γνώση και εφαρμογή νομοθεσίας τροφίμων</td>
+                </tr>
+            </table>
+
+            <div class="example-box">
+                <div class="example-title">🏪 Πρακτικό Παράδειγμα Σύγκρισης σε Εστιατόριο:</div>
+                
+                <p><strong>Εστιατόριο "ΑΚΡΟΠΟΛΙΣ" - Εφαρμογή και των δύο προτύπων</strong></p>
+                
+                <div class="standards-grid">
+                    <div class="standard-card iso9001">
+                        <h4>ISO 9001 Εφαρμογή</h4>
+                        <ul>
+                            <li><strong>Ικανοποίηση Πελατών:</strong> Σύστημα παραπόνων, μέτρηση ικανοποίησης</li>
+                            <li><strong>Ποιότητα Υπηρεσιών:</strong> Πρωτόκολλο σερβιρίσματος, χρόνοι αναμονής</li>
+                            <li><strong>Διαδικασίες:</strong> Τυποποιημένες συνταγές, ποσότητες συστατικών</li>
+                            <li><strong>Προμήθειες:</strong> Αξιολόγηση προμηθευτών βάσει ποιότητας και τιμής</li>
+                            <li><strong>Βελτίωση:</strong> Ανάλυση πωλήσεων, προσαρμογή μενού</li>
+                        </ul>
+                    </div>
+
+                    <div class="standard-card iso22000">
+                        <h4>ISO 22000 Εφαρμογή</h4>
+                        <ul>
+                            <li><strong>Ασφάλεια Τροφίμων:</strong> Έλεγχος θερμοκρασιών αποθήκευσης</li>
+                            <li><strong>HACCP:</strong> CCPs για μαγείρεμα, ψύξη, επαναθέρμανση</li>
+                            <li><strong>Προαπαιτούμενα:</strong> Καθαρισμός κουζίνας, προσωπική υγιεινή</li>
+                            <li><strong>Ιχνηλασιμότητα:</strong> Καταγραφή παρτίδων πρώτων υλών</li>
+                            <li><strong>Εκπαίδευση:</strong> Εκπαίδευση σε ασφάλεια τροφίμων</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="analysis-box">
+                    <div class="analysis-title">Ανάλυση Αλληλεπίδρασης:</div>
+                    <p><strong>Πώς αλληλεπιδρούν τα δύο συστήματα:</strong></p>
+                    <ul>
+                        <li><strong>Συμπληρωματικότητα:</strong> Το ISO 9001 βελτιώνει τη διαχείριση, το ISO 22000 διασφαλίζει την ασφάλεια</li>
+                        <li><strong>Ενίσχυση:</strong> Η καλή διαχείριση (ISO 9001) υποστηρίζει την ασφάλεια (ISO 22000)</li>
+                        <li><strong>Οικονομία Κλίμακας:</strong> Κοινή τεκμηρίωση, κοινές διαδικασίες</li>
+                        <li><strong>Συνολική Απόδοση:</strong> Καλύτερη ποιότητα + μεγαλύτερη ασφάλεια = ανταγωνιστικό πλεονέκτημα</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card info">
+                <h4>Συμπέρασμα Σύγκρισης</h4>
+                <p><strong>ISO 9001 και ISO 22000 δεν είναι αντικαταστάσεις αλλά συμπληρώματα:</strong></p>
+                <ul>
+                    <li><strong>ISO 9001</strong> παρέχει το πλαίσιο για αποτελεσματική διαχείριση</li>
+                    <li><strong>ISO 22000</strong> προσφέρει τις ειδικές τεχνικές για ασφάλεια τροφίμων</li>
+                    <li><strong>Η συνδυασμένη εφαρμογή</strong> δημιουργεί έναν οργανισμό που είναι τόσο αποτελεσματικός όσο και ασφαλής</li>
+                    <li><strong>Η επιλογή</strong> εξαρτάται από τους στόχους, το είδος του οργανισμού και τις απαιτήσεις των πελατών</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Ολοκλήρωση -->
+        <section id="integration" class="content-section">
+            <h2>Ολοκλήρωση ISO 9001 και ISO 22000 - Λεπτομερής Ανάλυση</h2>
+            
+            <div class="card">
+                <h3>Στρατηγική Ολοκλήρωσης Συστημάτων</h3>
+                <p>Η ολοκλήρωση των συστημάτων ISO 9001 και ISO 22000 επιτρέπει στους οργανισμούς να δημιουργήσουν ένα ενιαίο σύστημα διαχείρισης που καλύπτει τόσο την ποιότητα όσο και την ασφάλεια τροφίμων, με ελάχιστη γραφειοκρατία και μέγιστη αποτελεσματικότητα.</p>
+            </div>
+
+            <h3>Βήματα Ολοκλήρωσης Συστημάτων</h3>
+            
+            <div class="process-flow">
+                <div class="process-step">
+                    <strong>Βήμα 1: Ανάλυση Τρέχουσας Κατάστασης</strong>
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Εταιρεία: "ΗΡΑ" - Παραγωγή Αρτοσκευασμάτων</strong></p>
+                        <ul>
+                            <li><strong>Ανάλυση Τρέχοντος Συστήματος:</strong> Χαρτογράφηση 22 υφιστάμενων διαδικασιών</li>
+                            <li><strong>Ανάλυση Κενών:</strong> Εντοπισμός 15 τομέων που απαιτούν βελτίωση</li>
+                            <li><strong>Ανάλυση Αλληλεπικάλυψης:</strong> 8 διαδικασίες κοινές και στα δύο πρότυπα</li>
+                            <li><strong>Προτεραιοποίηση:</strong> Καθορισμός σειράς εφαρμογής βάσει επικινδυνότητας</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <strong>Βήμα 2: Ανάπτυξη Ενιαίας Πολιτικής</strong>
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Ενιαία Πολιτική Ποιότητας και Ασφάλειας Τροφίμων:</strong></p>
+                        <p>"Η εταιρεία ΗΡΑ δεσμεύεται για την παραγωγή αρτοσκευασμάτων υψηλής ποιότητας που πληρούν και υπερβαίνουν τις προσδοκίες των πελατών, διασφαλίζοντας παράλληλα την απόλυτη ασφάλεια των προϊόντων για την ανθρώπινη κατανάλωση μέσω της συνεχούς βελτίωσης του ολοκληρωμένου συστήματος διαχείρισης ποιότητας και ασφάλειας τροφίμων."</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <strong>Βήμα 3: Σχεδιασμός Ολοκληρωμένων Διαδικασιών</strong>
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Παράδειγμα Ολοκληρωμένης Διαδικασίας: "Παραλαβή Πρώτων Υλών"</strong></p>
+                        <ul>
+                            <li><strong>ISO 9001 Στοιχεία:</strong>
+                                <ul>
+                                    <li>Έλεγχος ποιότητας (υγρασία αλεύρου, χρώμα)</li>
+                                    <li>Σύγκριση τιμών προμηθευτών</li>
+                                    <li>Καταγραφή χρόνου παράδοσης</li>
+                                </ul>
+                            </li>
+                            <li><strong>ISO 22000 Στοιχεία:</strong>
+                                <ul>
+                                    <li>Έλεγχος πιστοποιητικών ασφάλειας</li>
+                                    <li>Ανάλυση κινδύνων (μυκοτοξίνες, μέταλλα)</li>
+                                    <li>Ιχνηλασιμότητα (αριθμός παρτίδας)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ολοκληρωμένη Διαδικασία:</strong> Ένα πρωτόκολλο παραλαβής που καλύπτει και τα δύο</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <strong>Βήμα 4: Ανάπτυξη Ολοκληρωμένης Τεκμηρίωσης</strong>
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Δομή Ολοκληρωμένης Τεκμηρίωσης:</strong></p>
+                        <ul>
+                            <li><strong>Επίπεδο 1 - Εγχειρίδιο Ποιότητας και Ασφάλειας:</strong> Ενιαίο εγχειρίδιο</li>
+                            <li><strong>Επίπεδο 2 - Διαδικασίες:</strong> 18 ολοκληρωμένες διαδικασίες</li>
+                            <li><strong>Επίπεδο 3 - Οδηγίες και Πρωτόκολλα:</strong> 45 εγγράφων</li>
+                            <li><strong>Επίπεδο 4 - Αρχεία:</strong> Ενιαία μορφή αρχείων</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <strong>Βήμα 5: Εκπαίδευση και Ευαισθητοποίηση</strong>
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Πρόγραμμα Εκπαίδευσης:</strong></p>
+                        <ul>
+                            <li><strong>Γενική Εκπαίδευση:</strong> 4 ώρες για όλο το προσωπικό</li>
+                            <li><strong>Ειδικευμένη Εκπαίδευση:</strong> 16 ώρες για υπεύθυνους διαδικασιών</li>
+                            <li><strong>Εκπαίδευση HACCP:</strong> 24 ώρες για ομάδα HACCP</li>
+                            <li><strong>Συνεχής Ενημέρωση:</strong> Μηνιαία ενημερωτικά δελτία</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <strong>Βήμα 6: Υλοποίηση και Επαλήθευση</strong>
+                    <div class="analysis-box">
+                        <div class="analysis-title">Πρακτική Εφαρμογή:</div>
+                        <p><strong>Πλάνο Υλοποίησης:</strong></p>
+                        <ul>
+                            <li><strong>Φάση 1 (Μήνες 1-3):</strong> Πιλοτική εφαρμογή σε μια γραμμή παραγωγής</li>
+                            <li><strong>Φάση 2 (Μήνες 4-6):</strong> Επέκταση σε όλες τις γραμμές</li>
+                            <li><strong>Φάση 3 (Μήνες 7-9):</strong> Εσωτερικοί έλεγχοι και βελτιώσεις</li>
+                            <li><strong>Φάση 4 (Μήνες 10-12):</strong> Εξωτερικός έλεγχος πιστοποίησης</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">📊 Πρακτικό Παράδειγμα Οφελών Ολοκλήρωσης:</div>
+                
+                <p><strong>Εταιρεία: "ΖΕΥΣ" - Παραγωγή Ελληνικών Προϊόντων</strong></p>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Δείκτης</th>
+                        <th>Πριν Ολοκλήρωση</th>
+                        <th>Μετά Ολοκλήρωση</th>
+                        <th>Βελτίωση</th>
+                    </tr>
+                    <tr>
+                        <td>Αριθμός Εγγράφων</td>
+                        <td>145</td>
+                        <td>89</td>
+                        <td>39%</td>
+                    </tr>
+                    <tr>
+                        <td>Ώρες Εκπαίδευσης/έτος</td>
+                        <td>320</td>
+                        <td>240</td>
+                        <td>25%</td>
+                    </tr>
+                    <tr>
+                        <td>Εσωτερικοί Έλεγχοι/έτος</td>
+                        <td>24</td>
+                        <td>16</td>
+                        <td>33%</td>
+                    </tr>
+                    <tr>
+                        <td>Χρόνος Απόκρισης σε Προβλήματα</td>
+                        <td>48 ώρες</td>
+                        <td>24 ώρες</td>
+                        <td>50%</td>
+                    </tr>
+                    <tr>
+                        <td>Κόστος Διαχείρισης Συστημάτων</td>
+                        <td>€85,000</td>
+                        <td>€52,000</td>
+                        <td>39%</td>
+                    </tr>
+                </table>
+                
+                <div class="analysis-box">
+                    <div class="analysis-title">Ανάλυση Οφελών:</div>
+                    <ul>
+                        <li><strong>Οικονομικά Οφέλη:</strong> Μείωση κόστους διαχείρισης κατά €33,000 ετησίως</li>
+                        <li><strong>Λειτουργικά Οφέλη:</strong> Βελτιωμένη αποτελεσματικότητα, ταχύτερη λήψη αποφάσεων</li>
+                        <li><strong>Αποτελεσματικότητα:</strong> Μείωση διπλοεγγραφής, βελτιωμένη επικοινωνία</li>
+                        <li><strong>Στρατηγικά Οφέλη:</strong> Ισχυρότερη θέση στην αγορά, βελτιωμένη φήμη</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card success">
+                <h4>Κρίσιμοι Παράγοντες Επιτυχίας Ολοκλήρωσης</h4>
+                <ul>
+                    <li><strong>Στρατηγική Προσέγγιση:</strong> Σχεδιασμός από πριν, όχι ad-hoc λύσεις</li>
+                    <li><strong>Δέσμευση Διοίκησης:</strong> Ηγεσία και πόροι για την ολοκλήρωση</li>
+                    <li><strong>Συμμετοχή Προσωπικού:</strong> Εμπλοκή όλων των επιπέδων</li>
+                    <li><strong>Ευελιξία:</strong> Προσαρμογή στις ανάγκες του οργανισμού</li>
+                    <li><strong>Συνεχής Βελτίωση:</strong> Η ολοκλήρωση είναι διαδικασία, όχι γεγονός</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz" class="content-section">
+            <h2>Quiz Αξιολόγησης Γνώσεων - Κεφάλαιο 7</h2>
+            
+            <div class="quiz-container">
+                <div class="question">
+                    <h3>Ερώτηση 1: Ποιος είναι ο κύριος σκοπός του ISO 9001 και πώς διαφέρει από τον σκοπό του ISO 22000;</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">ISO 9001: Ικανοποίηση πελατών και συνεχής βελτίωση ποιότητας | ISO 22000: Διασφάλιση ασφάλειας τροφίμων και πρόληψη επιβλαβών προϊόντων</div>
+                        <div class="option" onclick="selectOption(this)">ISO 9001: Αύξηση κερδών | ISO 22000: Μείωση κόστους παραγωγής</div>
+                        <div class="option" onclick="selectOption(this)">ISO 9001: Συμμόρφωση με νομοθεσία | ISO 22000: Βελτίωση της εικόνας της εταιρείας</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Ερώτηση 2: Ποιες είναι οι 7 βασικές αρχές ποιότητας του ISO 9001 και πώς εφαρμόζονται στην πράξη σε μια βιομηχανία τροφίμων;</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">1. Εστίαση στον πελάτη - 2. Ηγεσία - 3. Εμπλοκή ατόμων - 4. Διαδικασιακή προσέγγιση - 5. Βελτίωση - 6. Απόφαση βάσει δεδομένων - 7. Διαχείριση σχέσεων | Εφαρμογή: Σε εργοστάσιο γαλακτοκομικών, μέτρηση ικανοποίησης πελατών, συμμετοχή προσωπικού σε βελτιώσεις, χαρτογράφηση διαδικασιών παραγωγής</div>
+                        <div class="option" onclick="selectOption(this)">1. Κέρδος - 2. Απόδοση - 3. Ποσότητα - 4. Ταχύτητα - 5. Εξοικονόμηση - 6. Εξέλιξη - 7. Επένδυση | Εφαρμογή: Αύξηση παραγωγής, μείωση κόστους, βελτίωση τεχνολογίας</div>
+                        <div class="option" onclick="selectOption(this)">1. Ασφάλεια - 2. Υγιεινή - 3. Ποιότητα - 4. Συνέπεια - 5. Αξιοπιστία - 6. Αποδοτικότητα - 7. Βιωσιμότητα | Εφαρμογή: Έλεγχος θερμοκρασιών, καθαρισμός εξοπλισμού, τυποποιημένες διαδικασίες</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Ερώτηση 3: Τι είναι τα Προαπαιτούμενα Προγράμματα (PRPs) στο ISO 22000 και ποια είναι τα πιο σημαντικά PRPs σε μια μονάδα επεξεργασίας κρέατος;</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">PRPs είναι βασικές συνθήκες και δραστηριότητες για υγιεινό περιβάλλον | Σημαντικά PRPs: Καθαρισμός και απολύμανση εξοπλισμού, προσωπική υγιεινή, έλεγχος παρασίτων, συντήρηση εξοπλισμού, έλεγχος θερμοκρασίας αποθήκευσης</div>
+                        <div class="option" onclick="selectOption(this)">PRPs είναι προγράμματα για αύξηση παραγωγικότητας | Σημαντικά PRPs: Αυτοματοποίηση διαδικασιών, βελτίωση τεχνολογίας, εκπαίδευση προσωπικού</div>
+                        <div class="option" onclick="selectOption(this)">PRPs είναι προγράμματα μάρκετινγκ | Σημαντικά PRPs: Διαφήμιση προϊόντων, έρευνα αγοράς, ανάπτυξη νέων προϊόντων</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Ερώτηση 4: Πώς ενσωματώνονται οι αρχές του HACCP στο ISO 22000 και ποιο είναι ένα πρακτικό παράδειγμα εφαρμογής των 7 αρχών HACCP σε μια μονάδα παραγωγής χυμών;</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">Οι 7 αρχές HACCP ενσωματώνονται ως βασικό στοιχείο του ISO 22000 | Παράδειγμα: 1. Ανάλυση κινδύνων (παθογόνα σε ωμούς χυμούς) - 2. CCP (παστεύρωση) - 3. Κρίσιμα όρια (85°C για 30 δευτερόλεπτα) - 4. Παρακολούθηση (συνεχής θερμοκρασία) - 5. Διορθωτικές ενέργειες (επαναπαστεύρωση) - 6. Επαλήθευση (μικροβιολογικός έλεγχος) - 7. Τεκμηρίωση (αρχεία όλων των παραπάνω)</div>
+                        <div class="option" onclick="selectOption(this)">Οι αρχές HACCP είναι ξεχωριστές από το ISO 22000 | Παράδειγμα: 1. Σχεδιασμός - 2. Υλοποίηση - 3. Έλεγχος - 4. Αξιολόγηση - 5. Βελτίωση - 6. Τεκμηρίωση - 7. Επανάληψη</div>
+                        <div class="option" onclick="selectOption(this)">Το HACCP αντικαθιστά το ISO 22000 | Παράδειγμα: 1. Προετοιμασία - 2. Επεξεργασία - 3. Συσκευασία - 4. Αποθήκευση - 5. Μεταφορά - 6. Πώληση - 7. Κατανάλωση</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Ερώτηση 5: Ποια είναι τα κύρια οφέλη της ολοκλήρωσης ISO 9001 και ISO 22000 και πώς μετριούνται αυτά τα οφέλη στην πράξη;</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">Οφέλη: Μείωση γραφειοκρατίας, βελτιωμένη αποτελεσματικότητα, μείωση κόστους, ταχύτερη λήψη αποφάσεων | Μέτρηση: Μείωση αριθμού εγγράφων, μείωση ωρών εκπαίδευσης, μείωση χρόνου απόκρισης, μείωση κόστους διαχείρισης συστημάτων</div>
+                        <div class="option" onclick="selectOption(this)">Οφέλη: Αύξηση πωλήσεων, βελτίωση εικόνας, επέκταση στην αγορά | Μέτρηση: Αύξηση εσόδων, βελτίωση μεριδίου αγοράς, αύξηση κερδών</div>
+                        <div class="option" onclick="selectOption(this)">Οφέλη: Απλοποίηση ελέγχων, μείωση προσωπικού, αυτοματοποίηση | Μέτρηση: Μείωση αριθμού ελεγκτών, μείωση μισθολογικού κόστους, αύξηση αυτοματοποίησης</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Ερώτηση 6: Ποια είναι η σημασία της δομής υψηλού επιπέδου (High Level Structure) και πώς βοηθά στην ολοκλήρωση των συστημάτων ISO 9001 και ISO 22000;</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">Η κοινή δομή επιτρέπει ευκολότερη ολοκλήρωση, συνέπεια στην εφαρμογή, μείωση γραφειοκρατίας και βελτιωμένη κατανόηση από το προσωπικό | Περιλαμβάνει 10 κλάδους: Πεδίο εφαρμογής, αναφορές, όρους, πλαίσιο οργανισμού, ηγεσία, σχεδιασμό, υποστήριξη, λειτουργίες, αξιολόγηση απόδοσης, βελτίωση</div>
+                        <div class="option" onclick="selectOption(this)">Η δομή καθορίζει την οργανωτική δομή της εταιρείας | Περιλαμβάνει: Διοίκηση, τμήμα παραγωγής, τμήμα ποιότητας, τμήμα πωλήσεων, τμήμα μάρκετινγκ</div>
+                        <div class="option" onclick="selectOption(this)">Η δομή αναφέρεται στη φυσική δομή των εγκαταστάσεων | Περιλαμβάνει: Χώρους παραγωγής, αποθήκες, γραφεία, εργαστήρια, χώρους υποστήριξης</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Ερώτηση 7: Σε μια εταιρεία παραγωγής τυριών, ποια θα μπορούσαν να είναι τα κύρια CCPs και ποια τα αντίστοιχα κρίσιμα όριά τους;</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">CCP1: Παστεύρωση γάλακτος (72°C για 15 δευτερόλεπτα) | CCP2: Εξώριψη τυριού (pH < 5.3 σε 24 ώρες) | CCP3: Παστεύρωση τυριού προς πώληση (εάν απαιτείται) | CCP4: Έλεγχος θερμοκρασίας ωρίμανσης (<12°C για μαλακούς τυριούς)</div>
+                        <div class="option" onclick="selectOption(this)">CCP1: Συσκευασία τυριού (αδιάβροχη συσκευασία) | CCP2: Μεταφορά τυριού (θερμοκρασία <8°C) | CCP3: Αποθήκευση τυριού (υγρασία 80-85%) | CCP4: Πώληση τυριού (ημερομηνία λήξης)</div>
+                        <div class="option" onclick="selectOption(this)">CCP1: Παραλαβή γάλακτος (θερμοκρασία <4°C) | CCP2: Καθαρισμός εξοπλισμού (συγκέντρωση χλωρίου 200 ppm) | CCP3: Προσωπική υγιεινή (πλύσιμο χεριών) | CCP4: Έλεγχος παρασίτων (μηνιαίος έλεγχος)</div>
+                    </div>
+                </div>
+
+                <button class="submit-btn" onclick="checkQuiz()">Υποβολή Απαντήσεων</button>
+                <div id="quiz-result" class="result"></div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Απόκρυψη όλων των ενοτήτων
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Εμφάνιση της επιλεγμένης ενότητας
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Ενημέρωση ενεργών tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function selectOption(option) {
+            const options = option.parentElement.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+        }
+
+        function checkQuiz() {
+            const correctAnswers = [
+                0, // Σκοπός ISO 9001 vs ISO 22000
+                0, // 7 Αρχές ISO 9001
+                0, // PRPs
+                0, // HACCP στο ISO 22000
+                0, // Οφέλη ολοκλήρωσης
+                0, // Δομή υψηλού επιπέδου
+                0  // CCPs σε τυροκομείο
+            ];
+
+            let score = 0;
+            const questions = document.querySelectorAll('.question');
+            
+            questions.forEach((question, index) => {
+                const options = question.querySelectorAll('.option');
+                const selected = question.querySelector('.option.selected');
+                
+                if (selected) {
+                    const selectedIndex = Array.from(options).indexOf(selected);
+                    if (selectedIndex === correctAnswers[index]) {
+                        selected.classList.add('correct');
+                        score++;
+                    } else {
+                        selected.classList.add('incorrect');
+                        options[correctAnswers[index]].classList.add('correct');
+                    }
+                }
+            });
+
+            const result = document.getElementById('quiz-result');
+            const percentage = (score / questions.length) * 100;
+            
+            if (percentage >= 80) {
+                result.className = 'result success';
+                result.innerHTML = `Συγχαρητήρια! Έχεις εξαιρετική κατανόηση του κεφαλαίου!<br>Βαθμολογία: ${percentage.toFixed(0)}% (${score}/${questions.length} σωστές απαντήσεις)`;
+            } else if (percentage >= 60) {
+                result.className = 'result success';
+                result.innerHTML = `Καλή προσπάθεια! Έχεις καλή κατανόηση των βασικών εννοιών.<br>Βαθμολογία: ${percentage.toFixed(0)}% (${score}/${questions.length} σωστές απαντήσεις)<br>Συμβουλευτείτε ξανά ορισμένες ενότητες για βελτίωση.`;
+            } else {
+                result.className = 'result error';
+                result.innerHTML = `Χρειάζεσαι περισσότερη μελέτη. Προτείνουμε να επανεξετάσετε όλο το κεφάλαιο.<br>Βαθμολογία: ${percentage.toFixed(0)}% (${score}/${questions.length} σωστές απαντήσεις)<br>Εστιάστε ιδιαίτερα στις βασικές αρχές και πρακτικές εφαρμογές.`;
+            }
+
+            // Κύλιση στο αποτέλεσμα
+            result.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Προσθήκη διαδραστικότητας για τις κάρτες
+        document.querySelectorAll('.standard-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Προσθήκη διαδραστικότητας για τα βήματα διαδικασίας
+        document.querySelectorAll('.process-step').forEach(step => {
+            step.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            step.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
